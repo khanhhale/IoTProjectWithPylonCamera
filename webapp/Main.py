@@ -96,7 +96,7 @@ def storage_pull_message_from_storage():
        On success: json object
        On failure: json object with error message
     Example: 
-       http://0.0.0.0:80/storage/pull_message_from_storage?dataset_id=iot_bigdata_dataset1&table_id=table_image_info&bucket_id=dataflow-cloud-iot-testing-185623&file_name=camera/file.jpg&prefix=camera/
+       http://0.0.0.0:80/storage/pull_message_from_storage?dataset_id=iot_bigdata_dataset1&table_id=table_image_info&bucket_id=dataflow-cloud-iot-testing-185623&file_name=camera/jpg&prefix=camera/
    """
    try:
       bucket_id = urllib.unquote(request.args.get("bucket_id")).decode('utf8')

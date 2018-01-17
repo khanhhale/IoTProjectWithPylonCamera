@@ -27,9 +27,20 @@ python ./setup.py install
 openssl req -x509 -newkey rsa:2048 -keyout rsa_private.pem -nodes -out rsa_cert.pem -subj "/CN=unused"
 
 5) Add environment variable for service account json file to linux startup file:
-export GOOGLE_APPLICATION_CREDENTIALS="/path_to_camera_folder/PemFiles/cloud-iot-testing-052b9ca41b45.json"
+export GOOGLE_APPLICATION_CREDENTIALS="/path_to_camera_script_folder/PemFiles/cloud_iot_service_account_json_file"
+
+Note:
+    1) Replace cloud_iot_service_account_json_file with your service account json file
+    2) Replace path_to_camera_script_folder with your path to camera_script folder
 
 6) Install the script as a service that automatically starts or restarts the application when the operating system boots up.
-sudo cp /path_to_camera_folder/camera_startup /etc/init.d
+sudo cp /path_to_camera_script_folder/camera_startup /etc/init.d
 sudo chmod +x /etc/init.d/camera_startup
 sudo update-rc.d camera_startup defaults
+
+Note:
+Please replace the value for the parameters --project_id, --registry_id,- -device_id, --private_key_file, --public_key_file, --credential, --cloud_region, send_message_interval, and --registry_id that comes after the equal sign and change the path to the camera_script folder for the code below that appears within the camera_startup file.
+
+python /path_to_camera_script_folder/Main.py --project_id=cloud-iot-testing-185623 --registry_id=cloud-iot-registry1 --device_id=iot-device1 --algorithm=RS256 --private_key_file=/path_to_camera_script_folder/PemFiles/rsa_private.pem --public_key_file=/path_to_camera_script_folder/PemFiles/rsa_cert.pem --credential=/path_to_camera_script_folder/PemFiles/cloud_iot_service_account_json_file --cloud_region=us-central1 --message_type=event --message_data_type=image_string --send_message_interval=2 &
+
+
