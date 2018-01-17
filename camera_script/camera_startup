@@ -1,0 +1,38 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          camera_startup
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Description:       This file is a service for pylon camera. The script should be placed in /etc/init.d
+#                    
+### END INIT INFO
+
+case "$1" in 
+start)
+   python /home/khanh/camera/Main.py --project_id=cloud-iot-testing-185623 --registry_id=cloud-iot-registry1 --device_id=iot-device1  --message_type=event --algorithm=RS256 --private_key_file=/home/khanh/camera/PemFiles/rsa_private.pem --public_key_file=/home/khanh/camera/PemFiles/rsa_cert.pem --credential=/home/khanh/camera/PemFiles/cloud-iot-testing-052b9ca41b45.json --cloud_region=us-central1 --message_type=event --message_data_type=image_string --send_message_interval=2 &
+   echo $!>/var/run/camera.pid
+   ;;
+stop)
+   kill `cat /var/run/camera.pid`
+   rm /var/run/camera.pid
+   ;;
+restart)
+   $0 stop
+   $0 start
+   ;;
+status)
+   if [ -e /var/run/camera.pid ]; then
+      pid=`cat /var/run/camera.pid`
+      echo "Camera is running on process id: ${pid}" 
+   else
+      echo "Camera is NOT running"
+      exit 1
+   fi
+   ;;
+*)
+   echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
