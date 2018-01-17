@@ -1,0 +1,19 @@
+Metadata-Version: 1.1
+Name: pypylon
+Version: 0.0.1
+Summary: Cython module to provide access to Pylon's SDK.
+Home-page: UNKNOWN
+Author: Matthias Blaicher
+Author-email: matthias@blaicher.com
+License: custom
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Multimedia :: Graphics :: Capture :: Digital CameraLicense :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5

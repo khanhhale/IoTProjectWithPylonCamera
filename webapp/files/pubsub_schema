@@ -1,0 +1,12 @@
+(bigquery.SchemaField('ackId', 'STRING', mode='NULLABLE'),
+        bigquery.SchemaField('message', 'RECORD', mode='REQUIRED', fields = [
+            bigquery.table.SchemaField('attributes', 'RECORD', mode='REQUIRED', fields = [            
+                    bigquery.table.SchemaField('subFolder', 'STRING', mode='NULLABLE'),
+                    bigquery.table.SchemaField('projectId', 'STRING', mode='NULLABLE'),
+                    bigquery.table.SchemaField('deviceRegistryId', 'STRING', mode='NULLABLE'),
+                    bigquery.table.SchemaField('deviceNumId', 'STRING', mode='NULLABLE'),
+                    bigquery.table.SchemaField('deviceId', 'STRING', mode='NULLABLE'),
+                    bigquery.table.SchemaField('deviceRegistryLocation', 'STRING', mode='NULLABLE')]),
+            bigquery.table.SchemaField('data', 'STRING', mode='NULLABLE'),
+            bigquery.table.SchemaField('publishTime', 'STRING', mode='NULLABLE'),
+            bigquery.table.SchemaField('messageId', 'INTEGER', mode='NULLABLE')]))

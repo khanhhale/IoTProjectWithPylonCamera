@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>Main page</title>
+   </head>
+<body>
+    <!--  wrapper -->
+       <div id="top">
+            <div id="top-body">
+            <img src="{{ url_for('static', filename='img/iot_logo.png') }}"></src>   
+            </div>
+       </div>
+       <div id="barline"></div>
+        <div id="body"> 
+          <div id="body-left">
+            <div id="body-first-row">       
+                <div class="body-first-row-content"> 
+                <div id="navbar">
+            <nav id="navbar-header" role="navigation">
+
+            <a href="http://0.0.0.0:80/storage/pull_message_from_storage?dataset_id=iot_bigdata_dataset1&table_id=table_image_info&bucket_id=dataflow-cloud-iot-testing-185623&file_name=camera/base64-2018-01-17T00:50:00.000Z-2018-01-17T00:55:00.000Z-pane-0-last-00-of-01-gif&prefix=camera/">Pull Messages from the cloud storage test</a><br/>
+            </nav> 
+                </div>             
+                </div>
+            </div>
+           </div>
+        <!-- end navbar side -->
+
+        <!--  page-wrapper -->
+        <div id="body-right">
+            <div id="body-first-row">
+                <!-- Page Header -->
+                <div id="body-first-row-left">
+                </div>
+                <!--End Page Header -->
+            </div>
+        </div>
+        <!-- end page-wrapper -->
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+Installation
+1) Create Pubsub triggers function and update the index.js and package.json with the two files in this folder.
+2) Update the options object with your own configurations.
+3) Deploy the Pubsub triggers function.

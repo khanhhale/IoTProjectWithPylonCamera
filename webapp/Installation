@@ -1,0 +1,39 @@
+1) Installation of packages
+sudo apt-get install python-pip python-dev build-essential python-setuptools python-tk python-qt4
+sudo pip install google-cloud
+sudo pip install oauth2client
+sudo pip install apiclient
+sudo pip install google-api-python-client
+sudo pip install cryptography
+sudo pip install requests
+sudo pip install google-gax
+sudo pip install flask-login
+sudo pip install Flask-JWT
+sudo pip install python-dateutil
+sudo pip install pyjwt
+sudo pip install Flask
+sudo pip install flask
+sudo pip install Pillow
+sudo pip install --upgrade pyasn1-modules
+
+2) Install protobuf3-to-dict-0.1.5:
+cd webapp/protobuf3-to-dict-0.1.5
+python ./setup.py install
+
+3) Create service account that generates json file
+openssl req -x509 -newkey rsa:2048 -keyout rsa_private.pem -nodes -out rsa_cert.pem -subj "/CN=unused"
+
+4) Add environment variable for service account json file to linux startup file:
+export GOOGLE_APPLICATION_CREDENTIALS="/path_to_webapp/PemFiles/cloud-iot-testing-052b9ca41b45.json"
+
+5) Start up the program
+sudo python Main.py --project_id=cloud-iot-testing-185623 --registry_id=cloud-iot-registry1 --device_id=iot-device1 --message_type=event --algorithm=RS256 --private_key_file=/path_to_webapp/PemFiles/rsa_private.pem --public_key_file=/path_to_webapp_folder/PemFiles/rsa_cert.pem --credential=/path_to_webapp/PemFiles/cloud-iot-testing-168c9aa35a16.json --cloud_region=us-central1
+
+6) Install the script as a service that automatically starts or restarts the application when the operating system boots up
+sudo cp /path_to_webapp_folder/webapp /etc/init.d
+sudo chmod +x /etc/init.d/webapp
+sudo update-rc.d webapp enable
+sudo update-rc.d webapp defaults
+
+Remove carriage return characters in script to prevent errors:
+sed -i 's/\r//g' /etc/init.d/webapp
