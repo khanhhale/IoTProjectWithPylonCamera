@@ -11,7 +11,7 @@
 
 case "$1" in 
 start)
-   python /home/khanh/camera/Main.py --project_id=cloud-iot-testing-185623 --registry_id=cloud-iot-registry1 --device_id=iot-device1  --message_type=event --algorithm=RS256 --private_key_file=/home/khanh/camera/PemFiles/rsa_private.pem --public_key_file=/home/khanh/camera/PemFiles/rsa_cert.pem --credential=/home/khanh/camera/PemFiles/cloud-iot-testing-052b9ca41b45.json --cloud_region=us-central1 --message_type=event --message_data_type=image_string --send_message_interval=2 &
+   python /path_to_camera_script_folder/Main.py --project_id=cloud-iot-testing-185623 --registry_id=cloud-iot-registry1 --device_id=iot-device1 --algorithm=RS256 --private_key_file=/path_to_camera_script_folder/PemFiles/rsa_private.pem --public_key_file=/path_to_camera_script_folder/PemFiles/rsa_cert.pem --credential=/path_to_camera_script_folder/PemFiles/cloud-iot-testing-052b9ca41b45.json --cloud_region=us-central1 --message_type=event --message_data_type=image_string --send_message_interval=2 &
    echo $!>/var/run/camera.pid
    ;;
 stop)

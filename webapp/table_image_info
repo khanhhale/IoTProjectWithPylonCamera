@@ -1,0 +1,31 @@
+{
+  "schema": {
+    "fields": [
+      {
+        "mode": "NULLABLE", 
+        "name": "fileName", 
+        "type": "STRING"
+      }, 
+      {
+        "mode": "NULLABLE", 
+        "name": "filePath", 
+        "type": "STRING"
+      }, 
+      {
+        "mode": "NULLABLE", 
+        "name": "dateCreated", 
+        "type": "DATETIME"
+      }, 
+      {
+        "mode": "NULLABLE", 
+        "name": "dateDeleted", 
+        "type": "DATETIME"
+      }, 
+      {
+        "mode": "NULLABLE", 
+        "name": "personDetected", 
+        "type": "BOOLEAN"
+      }
+    ]
+  }
+}
