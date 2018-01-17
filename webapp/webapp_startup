@@ -1,8 +1,8 @@
 #!/bin/bash
 ### BEGIN INIT INFO
-# Provides:
-# Required-Start:    service webapp start
-# Required-Stop:     service webapp stop
+# Provides:          webapp_startup
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Description:       This file is a service for webapp. The script should be placed in /etc/init.d                   
