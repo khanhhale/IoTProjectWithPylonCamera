@@ -57,7 +57,8 @@ class CameraApi(Utility):
   def CaptureSingleShot(self, imageFormat="JPG"):
     """
     Description: 
-       This function capture image, resize the image, and then save the image to memory buffer.
+       This function capture image, resize the image, and then save the image to memory buffer. The message sending through IoT devices must be less
+       than 256 KB due to size limit being placed on IoT devices.
     Args: 
        None
     Returns:

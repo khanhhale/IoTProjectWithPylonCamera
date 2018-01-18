@@ -1,7 +1,7 @@
 IoT Solution With Pylon Camera
 
 
-In this readme file, I will be talking about how we can create a solution for the Pylon Camera and Google Cloud Platform Services to work together. For this particular IoT solution, it starts with the camera capturing a live image every 2 seconds and storing this image’s data in a temporary storage buffer. The image data is immediately taken out of the buffer and get converted to the base 64 data. The base 64 data will then be forwarded to the Pub/Sub queue through the Internet.
+In this readme file, I will be talking about how we can create a solution for the Pylon Camera and Google Cloud Platform Services to work together. For this particular IoT solution, it starts with the camera capturing a live image every 2 seconds and storing this image’s data in a temporary storage buffer. The image data is immediately taken out of the buffer and then get resized to below 256 KB due to each message getting sent by IoT devices being restricted to the maximum size of 256 KB. After the shrinkage of the size of an image, the image data get converted to the base64 data and then get forwarded to the Pub/Sub queue through the Internet.
 
 
 Meanwhile a Dataflow cron job is running and listening in the background constantly. When this cron job found new messages in the the Pub/Sub queue, it collects a group of base64 messages from the Pub/Sub queue and concatenates these messages and saves them in a file. This file will be stored in the bucket of Storage and then Dataflow cron job will continue to repeat the steps of picking up the data from the Pub/Sub queue and dumping the data in the bucket of Storage for every 5 minutes.
