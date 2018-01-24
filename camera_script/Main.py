@@ -62,7 +62,7 @@ def publish_message():
        Throw an exception on failure
    '''   
    try:
-       img_data = cameraApiObj.CaptureSingleShot("JPG")
+       img_data = cameraApiObj.CaptureSingleShot("JPEG")
        img_data.seek(0)
        file_data = img_data.read().strip()
        cloudApisObj.publish_message_to_subpub(args.project_id, args.registry_id, args.device_id, args.message_type, args.base_url, args.cloud_region, args.algorithm, args.private_key_file, args.message_data_type, base64.b64encode(file_data))     

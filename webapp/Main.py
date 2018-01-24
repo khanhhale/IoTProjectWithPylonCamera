@@ -104,7 +104,12 @@ def storage_pull_message_from_storage():
       dataset_id = urllib.unquote(request.args.get("dataset_id")).decode('utf8')
       table_id = urllib.unquote(request.args.get("table_id")).decode('utf8')
       prefix = urllib.unquote(request.args.get("prefix")).decode('utf8')
-       
+      '''
+      token = urllib.unquote(request.args.get("token")).decode('utf8')
+      if(cloudApisObj.authenticate_token(token,"google cloud private key")):
+        raise Exception("The file must have jpg or gif image")  
+      '''
+
       blob = storageApisObj.download_blob(bucket_id, blob_name)
       messageJson = []
       if(blob != None):

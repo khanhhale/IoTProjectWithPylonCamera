@@ -54,7 +54,7 @@ class CameraApi(Utility):
 
     return pilImage
 
-  def CaptureSingleShot(self, imageFormat="JPG"):
+  def CaptureSingleShot(self, imageFormat="JPEG"):
     """
     Description: 
        This function capture image, resize the image, and then save the image to memory buffer. The message sending through IoT devices must be less
