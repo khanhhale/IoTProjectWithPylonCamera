@@ -1,0 +1,12 @@
+Installing the template
+1) Have google cloud sdk install on your computer
+2) Download and install maven compiler or eclipse
+3) Run a cd command to the path_to_dataflowtemplate_folder/src/main/java/com/google/dataflowtemplates folder
+4) Replace all the values of the parameters stagingLocation, project, outputDirectory, topic, outputFilenamePrefix, outputFilenameSuffix, windowDuration, numShards, dataflowJobFile and gcpTempLocation with yours and run the command below
+
+/path_to_maven_folder/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=path_to_storage_bucket/staging --runner=DataflowRunner --outputDirectory=path_to_storage_bucket/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=path_to_storage_bucket/template/pubsubtogcs --gcpTempLocation=path_to_storage_bucket/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+
+Example:
+/path_to_maven_folder/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=gs://dataflow-cloud-iot-testing-185623/staging --runner=DataflowRunner --outputDirectory=gs://dataflow-cloud-iot-testing-185623/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=gs://dataflow-cloud-iot-testing-185623/template/pubsubtogcs --gcpTempLocation=gs://dataflow-cloud-iot-testing-185623/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+
+
