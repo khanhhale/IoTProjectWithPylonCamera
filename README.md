@@ -9,6 +9,13 @@ Meanwhile a Dataflow cron job is running and listening in the background constan
 
 As soon as the Pub/Sub Triggers function detects that a new image file in the bucket of the Storage is being created, it makes a REST call to the webapp application running on the Compute Engine VM. Once the webapp receives the rest call, it uses Vision APIs to analyze the newly created image file in the bucket. If it finds that a person is found in the image, it will persist a record in the Bigquery table called “table_image_info” with information about the image in the image file.
 
+Components:
+Pylon Camera
+Google Cloud Platform
+
+Programing Languages: 
+Python, Java, C/C++, Flask, HTML, CSS
+
 
 Setting up the Projects
 
@@ -115,6 +122,29 @@ Create Storage Bucket
        A Location where the bucket data will be stored
 4. Click Create.
 
+Create Dataflow Cron Job
+
+Create dataflow template with google provided “Cloud Pub/Sub to to Cloud Storage Text” template.
+1) Go to the Cloud Dataflow page in the Cloud Platform Console.
+2) Click CREATE JOB FROM TEMPLATE.
+3) Select the Google-provided template that you want to execute from the Cloud Dataflow template drop-down menu.
+4) Choose “Cloud PubSub to GCS text” for Dataflow template
+5) Enter a job name in the Job Name field. Your job name must match the regular expression [a-z]([-a-z0-9]{0,38}[a-z0-9])? to be valid.
+6) Enter your parameter values in the provided parameter fields. You should not need the Additional Parameters section when you use a Google-provided template.
+7) Click Run Job.
+
+
+Create a custom dataflow template
+
+1) Have google cloud sdk install on your computer
+2) Download and install maven compiler or eclipse
+3) Run a cd command to the dataflowtemplate folder
+4) Replace all the values of the parameters stagingLocation, project, outputDirectory, topic, outputFilenamePrefix, outputFilenameSuffix, windowDuration, numShards, dataflowJobFile and gcpTempLocation with yours and run the command below
+
+/path_to_maven_folder/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=path_to_storage_bucket/staging --runner=DataflowRunner --outputDirectory=path_to_storage_bucket/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=path_to_storage_bucket/template/pubsubtogcs --gcpTempLocation=path_to_storage_bucket/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+
+Example:
+/home/khanhl/apache-maven-3.5.2/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=gs://dataflow-cloud-iot-testing-185623/staging --runner=DataflowRunner --outputDirectory=gs://dataflow-cloud-iot-testing-185623/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=gs://dataflow-cloud-iot-testing-185623/template/pubsubtogcs --gcpTempLocation=gs://dataflow-cloud-iot-testing-185623/tmp --numWorkers=1 --jobName=PubSubtoGCS"
 
 
 
@@ -306,3 +336,4 @@ Setting up the Pub/Sub triggers function
 2) Create Pub/Sub triggers function and update the index.js and package.json with the two files in the cloud functions folder.
 a) Update the options object with your own configurations.
 b) Deploy the Pubsub triggers function.
+
