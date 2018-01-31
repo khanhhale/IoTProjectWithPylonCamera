@@ -1,0 +1,4 @@
+com/google/dataflowtemplates/WindowedFilenamePolicy$SubDirectoryPolicy.class
+com/google/dataflowtemplates/SubPubToGCSTemplate.class
+com/google/dataflowtemplates/WindowedFilenamePolicy.class
+com/google/dataflowtemplates/DataFlowPLOptions.class

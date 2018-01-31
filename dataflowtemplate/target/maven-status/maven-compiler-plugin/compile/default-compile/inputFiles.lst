@@ -1,0 +1,3 @@
+/home/khanhl/iot_with_pylon_camera/dataflowtemplate/src/main/java/com/google/dataflowtemplates/SubPubToGCSTemplate.java
+/home/khanhl/iot_with_pylon_camera/dataflowtemplate/src/main/java/com/google/dataflowtemplates/DataFlowPLOptions.java
+/home/khanhl/iot_with_pylon_camera/dataflowtemplate/src/main/java/com/google/dataflowtemplates/WindowedFilenamePolicy.java
