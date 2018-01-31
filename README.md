@@ -14,7 +14,7 @@ Pylon Camera
 Google Cloud Platform
 
 Programing Languages: 
-Python, Java, C/C++, Flask, HTML, CSS
+Python, Java, C/C++, Node.js, Flask, Javascript, HTML, CSS
 
 
 Setting up the Projects
