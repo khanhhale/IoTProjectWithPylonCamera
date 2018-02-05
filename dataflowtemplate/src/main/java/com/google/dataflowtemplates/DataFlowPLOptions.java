@@ -38,7 +38,7 @@ public interface DataFlowPLOptions extends DataflowPipelineOptions, StreamingOpt
     ValueProvider<String> getOutputFilenameSuffix();
     void setOutputFilenameSuffix(ValueProvider<String> value);
 
-    @Description("The window duration in which data will be written. Defaults to 5m. "
+    @Description("The window duration in which data will be written. Defaults to 5s. "
         + "Allowed formats are: "
         + "Ns (for seconds, example: 5s), "
         + "Nm (for minutes, example: 12m), "
