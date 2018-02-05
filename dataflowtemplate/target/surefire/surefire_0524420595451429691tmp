@@ -1,0 +1,7 @@
+#surefire_0
+#Wed Jan 24 03:34:47 PST 2018
+exec.args=--project\=cloud-iot-testing-185623 --stagingLocation\=gs\://dataflow-cloud-iot-testing-185623/staging --runner\=DataflowRunner --outputDirectory\=gs\://dataflow-cloud-iot-testing-185623/output --topic\=cloud-iot-topic1 --outputFilenamePrefix\=base64 --outputFilenameSuffix\=-txt --windowDuration\=10s --numShards\=10 --dataflowJobFile\=gs\://dataflow-cloud-iot-testing-185623/template/MyTemplate --gcpTempLocation\=gs\://dataflow-cloud-iot-testing-185623/tmp --numWorkers\=3 --shardTemplate\=
+exec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate
+basedir=/home/khanhl/eclipse-workspace/dataflowtemplate
+user.dir=/home/khanhl/eclipse-workspace/dataflowtemplate
+localRepository=/home/khanhl/.m2/repository

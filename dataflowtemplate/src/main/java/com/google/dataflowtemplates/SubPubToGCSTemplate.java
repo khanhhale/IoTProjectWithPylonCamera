@@ -2,7 +2,6 @@ package com.google.dataflowtemplates;
 
 //import org.apache.beam.runners.dataflow.options.DataflowPipelineOptions;
 import org.apache.beam.sdk.Pipeline;
-import org.apache.beam.sdk.PipelineResult;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
@@ -10,15 +9,10 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory;
 //import org.apache.beam.sdk.transforms.ParDo;
 import org.apache.beam.sdk.transforms.windowing.FixedWindows;
 import org.apache.beam.sdk.transforms.windowing.Window;
-//import org.apache.beam.sdk.values.PCollection;
-//import org.apache.beam.sdk.transforms.PTransform;
-//import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.beam.sdk.io.DefaultFilenamePolicy;
-//import org.apache.beam.sdk.io.Param;
 /**
  */
 
@@ -33,19 +27,23 @@ public class SubPubToGCSTemplate
   System.out.println("getRunner: " + opts.getRunner());
   System.out.println("getDataflowJobFile: " + opts.getDataflowJobFile());
   System.out.println("getTopic: " + opts.getTopic());
-  System.out.println("getOutputFilenamePrefix: " + opts.getOutputFilenamePrefix());
-  System.out.println("getOutputFilenameSuffix: " + opts.getOutputFilenameSuffix());
+  System.out.println("getOutputFilenamePrefix: " + opts.getOutputFilenamePrefix().get());
+  System.out.println("getOutputFilenameSuffix: " + opts.getOutputFilenameSuffix().get());
   System.out.println("getNumShards: " + opts.getNumShards());
   System.out.println("getWindowDuration: " + opts.getWindowDuration());
+  System.out.println("getShardTemplate: " + opts.getShardTemplate().get());
   Pipeline pl = Pipeline.create(opts);  
 
   FixedWindows window = FixedWindows.of(durationParse(opts.getWindowDuration()));
+  WindowedFilenamePolicy filenamepolicy = new WindowedFilenamePolicy(opts.getOutputFilenamePrefix().get(), opts.getOutputFilenameSuffix().get());
   
   pl
     .apply("Read PubSub Events",PubsubIO.readStrings().fromTopic(opts.getTopic()))
 	.apply("Window", Window.<String>into(window))
-	.apply("Write File(s)", TextIO.write().withWindowedWrites().withNumShards(opts.getNumShards()).to(opts.getOutputDirectory()).withFilenamePolicy(new WindowedFilenamePolicy(opts.getOutputFilenamePrefix(),opts.getShardTemplate(),opts.getOutputFilenameSuffix()).withSubDirectoryPolicy(opts.getSubDirectoryPolicy())));
-
+    .apply(TextIO.write().to(opts.getOutputDirectory())
+    		.withFilenamePolicy(filenamepolicy)
+    		.withWindowedWrites()
+    		.withNumShards(opts.getNumShards()));
   pl.run();
   }
   

@@ -6,8 +6,6 @@ import org.apache.beam.sdk.options.Description;
 import org.apache.beam.sdk.options.StreamingOptions;
 import org.apache.beam.sdk.options.Validation.Required;
 
-import com.google.dataflowtemplates.WindowedFilenamePolicy.SubDirectoryPolicy;
-
 import org.apache.beam.sdk.options.ValueProvider;
 
 
@@ -17,46 +15,40 @@ public interface DataFlowPLOptions extends DataflowPipelineOptions, StreamingOpt
     ValueProvider<String> getTopic();
     void setTopic(ValueProvider<String> value);
 
-    @Description("The directory to output the files to.")
+    @Description("The directory to output files to. Must end with a slash.")
     @Required
     ValueProvider<String> getOutputDirectory();
     void setOutputDirectory(ValueProvider<String> value);
 
-    @Description("The prefix of the output files.")
+    @Description("The filename prefix of the files to write to.")
     @Default.String("output")
     @Required
     ValueProvider<String> getOutputFilenamePrefix();
     void setOutputFilenamePrefix(ValueProvider<String> value);
 
-    @Description("The shard template specified as repeating sequences "
+    @Description("The shard template of the output file. Specified as repeating sequences "
         + "of the letters 'S' or 'N' (example: SSS-NNN). These are replaced with the "
         + "shard number, or number of shards respectively")
     @Default.String("")
     ValueProvider<String> getShardTemplate();
     void setShardTemplate(ValueProvider<String> value);
 
-    @Description("The suffix of the output files.")
+    @Description("The suffix of the files to write.")
     @Default.String("")
     ValueProvider<String> getOutputFilenameSuffix();
     void setOutputFilenameSuffix(ValueProvider<String> value);
 
-    @Description("The sub-directory policy which files will use when dataflow output the files per window.")
-    @Default.Enum("NONE")
-    SubDirectoryPolicy getSubDirectoryPolicy();
-    void setSubDirectoryPolicy(SubDirectoryPolicy value);
-
-    @Description("The window duration in which data will be written. Defaults to 30 seconds. "
-        + "The allowed formats are in Ns, Nm, Nh or Nd where N stands for any number and the letter that follows N indicates time in second, minute, hour or day "
-        + "Ns (for seconds, 5s), "
-        + "Nm (for minutes, 5m), "
-        + "Nh (for hours, 5h)."
-        + "Nd (for days, 5d).")
-    @Default.String("30s")
+    @Description("The window duration in which data will be written. Defaults to 5m. "
+        + "Allowed formats are: "
+        + "Ns (for seconds, example: 5s), "
+        + "Nm (for minutes, example: 12m), "
+        + "Nh (for hours, example: 2h).")
+    @Default.String("20s")
     String getWindowDuration();
     void setWindowDuration(String value);
 
-    @Description("The maximum number of output shards produced.")
-    @Default.Integer(1)
+    @Description("The maximum number of output shards produced when writing.")
+    @Default.Integer(10)
     Integer getNumShards();
     void setNumShards(Integer value);
   }
