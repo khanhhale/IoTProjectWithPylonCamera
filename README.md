@@ -1,20 +1,23 @@
+Components:
+1. Pylon Camera
+2. Google Cloud Platform
+
+
+Programing Languages: 
+                          
+Python, Java, C/C++, Nodejs, Flask, Javascript, HTML, CSS
+
+
 IoT Solution With Pylon Camera
 
 
-In this readme file, I will be talking about how we can create a solution for the Pylon Camera and Google Cloud Platform Services to work together. For this particular IoT solution, it starts with the camera capturing a live image every 2 seconds and storing this image’s data in a temporary storage buffer. The image data is immediately taken out of the buffer and then get resized to below 256 KB due to each message getting sent by IoT devices being restricted to the maximum size of 256 KB. After the shrinkage of the size of an image, the image data get converted to the base64 data and then get forwarded to the Pub/Sub queue through the Internet.
+In this readme file, I will be talking about how we can create a solution for the Pylon Camera and Google Cloud Platform Services to work together. For this particular IoT solution, it starts with the camera capturing a live image every 2 seconds and storing this image data in a temporary storage buffer. The image data is immediately taken out of the buffer and then get resized to below 256 KB due to each message getting sent by IoT devices being restricted to the maximum size of 256 KB. After the shrinkage of the size of an image, the image data get converted to the base64 data and then get forwarded to the Pub/Sub queue through the Internet.
 
 
 Meanwhile a Dataflow cron job is running and listening in the background constantly. When this cron job found new messages in the the Pub/Sub queue, it collects a group of base64 messages from the Pub/Sub queue and concatenates these messages and saves them in a file stored in the bucket of Storage on a 5-second window basis. Dataflow cron job continues to repeat the steps of picking up the data from the Pub/Sub queue and dumping the data to a new file stored in the bucket of Storage when the 5-second window mark is passed. In other words, a file stores messages published within a 5-second window. After a 5-second window mark is passed, a new file is created and store all messages published within the next 5-second window.
 
 
 As soon as the Pub/Sub Triggers function detects that a new image file in the bucket of the Storage is being created, it makes a REST call to the webapp application running on the Compute Engine VM. Once the webapp receives the rest call, it uses Vision APIs to analyze the newly created image file in the bucket. If it finds that a person is found in the image, it will persist a record in the Bigquery table called “table_image_info” with information about the image in the image file.
-
-Components:
-Pylon Camera
-Google Cloud Platform
-
-Programing Languages: 
-Python, Java, C/C++, Node.js, Flask, Javascript, HTML, CSS
 
 
 Setting up the Projects
@@ -122,32 +125,31 @@ Create Storage Bucket
        A Location where the bucket data will be stored
 4. Click Create.
 
+
 Create Dataflow Cron Job
-
-Create dataflow template with google provided “Cloud Pub/Sub to to Cloud Storage Text” template.
-1) Go to the Cloud Dataflow page in the Cloud Platform Console.
-2) Click CREATE JOB FROM TEMPLATE.
-3) Select the Google-provided template that you want to execute from the Cloud Dataflow template drop-down menu.
-4) Choose “Cloud PubSub to GCS text” for Dataflow template
-5) Enter a job name in the Job Name field. Your job name must match the regular expression [a-z]([-a-z0-9]{0,38}[a-z0-9])? to be valid.
-6) Enter your parameter values in the provided parameter fields. You should not need the Additional Parameters section when you use a Google-provided template.
-7) Click Run Job.
-
-
-Create a custom dataflow template
-
+Create a custom dataflow template job
 1) Have google cloud sdk install on your computer
 2) Download and install maven compiler or eclipse
 3) Run a cd command to the dataflowtemplate folder
 4) Replace all the values of the parameters stagingLocation, project, outputDirectory, topic, outputFilenamePrefix, outputFilenameSuffix, windowDuration, numShards, dataflowJobFile and gcpTempLocation with yours and run the command below
 
-/path_to_maven_folder/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=path_to_storage_bucket/staging --runner=DataflowRunner --outputDirectory=path_to_storage_bucket/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=path_to_storage_bucket/template/pubsubtogcs --gcpTempLocation=path_to_storage_bucket/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+
+/path_to_maven_folder/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=path_to_storage_bucket/staging --runner=DataflowRunner --outputDirectory=path_to_storage_bucket/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=5s --numShards=1 --dataflowJobFile=path_to_storage_bucket/template/pubsubtogcs --gcpTempLocation=path_to_storage_bucket/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+
 
 Example:
-/home/khanhl/apache-maven-3.5.2/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=gs://dataflow-cloud-iot-testing-185623/staging --runner=DataflowRunner --outputDirectory=gs://dataflow-cloud-iot-testing-185623/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=10s --numShards=10 --dataflowJobFile=gs://dataflow-cloud-iot-testing-185623/template/pubsubtogcs --gcpTempLocation=gs://dataflow-cloud-iot-testing-185623/tmp --numWorkers=1 --jobName=PubSubtoGCS"
+/home/khanhl/apache-maven-3.5.2/bin/mvn compile exec:java -Dexec.mainClass=com.google.dataflowtemplates.SubPubToGCSTemplate -Dexec.args="--project=cloud-iot-testing-185623 --stagingLocation=gs://dataflow-cloud-iot-testing-185623/staging --runner=DataflowRunner --outputDirectory=gs://dataflow-cloud-iot-testing-185623/output/ --topic=projects/cloud-iot-testing-185623/topics/cloud-iot-topic1 --outputFilenamePrefix=base64 --outputFilenameSuffix=-txt --windowDuration=5s --numShards=1 --dataflowJobFile=gs://dataflow-cloud-iot-testing-185623/template/pubsubtogcs --gcpTempLocation=gs://dataflow-cloud-iot-testing-185623/tmp --numWorkers=1 --jobName=PubSubtoGCS"
 
 
-
+Create dataflow template with google provided “Cloud Pub/Sub to to Cloud Storage Text” template.
+     Note: This has 5-minute window for generating an output file.
+1. Go to the Cloud Dataflow page in the Cloud Platform Console.
+2. Click CREATE JOB FROM TEMPLATE.
+3. Select the Google-provided template that you want to execute from the Cloud Dataflow template drop-down menu.
+4. Choose “Cloud PubSub to GCS text” for Dataflow template
+5. Enter a job name in the Job Name field. Your job name must match the regular expression [a-z]([-a-z0-9]{0,38}[a-z0-9])? to be valid.
+6. Enter your parameter values in the provided parameter fields. You should not need the Additional Parameters section when you use a Google-provided template.
+7. Click Run Job.
 Setting up the Camera Project on the UpBoard
 1) Go to https://emutex.com/products/ubilinux and download the UBILINUX 4 iso image file for the UP BOARD. Use Etcher or other tool to burn the image to the USB drive.
 2) Plug the monitor, USB drive, USB keyboard and USB mouse, RJ 45 network cable with Internet access, and power cable into the Up Board. Make sure the Up Board is connected to the internet.
@@ -336,4 +338,3 @@ Setting up the Pub/Sub triggers function
 2) Create Pub/Sub triggers function and update the index.js and package.json with the two files in the cloud functions folder.
 a) Update the options object with your own configurations.
 b) Deploy the Pubsub triggers function.
-
