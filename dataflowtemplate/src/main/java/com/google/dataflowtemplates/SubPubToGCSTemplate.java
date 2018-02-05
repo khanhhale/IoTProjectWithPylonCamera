@@ -31,7 +31,6 @@ public class SubPubToGCSTemplate
   System.out.println("getOutputFilenameSuffix: " + opts.getOutputFilenameSuffix().get());
   System.out.println("getNumShards: " + opts.getNumShards());
   System.out.println("getWindowDuration: " + opts.getWindowDuration());
-  System.out.println("getShardTemplate: " + opts.getShardTemplate().get());
   Pipeline pl = Pipeline.create(opts);  
 
   FixedWindows window = FixedWindows.of(durationParse(opts.getWindowDuration()));

@@ -43,12 +43,12 @@ public interface DataFlowPLOptions extends DataflowPipelineOptions, StreamingOpt
         + "Ns (for seconds, example: 5s), "
         + "Nm (for minutes, example: 12m), "
         + "Nh (for hours, example: 2h).")
-    @Default.String("20s")
+    @Default.String("10s")
     String getWindowDuration();
     void setWindowDuration(String value);
 
     @Description("The maximum number of output shards produced when writing.")
-    @Default.Integer(10)
+    @Default.Integer(1)
     Integer getNumShards();
     void setNumShards(Integer value);
   }

@@ -46,7 +46,7 @@ public interface DataFlowPLOptions extends DataflowPipelineOptions, StreamingOpt
     void setSubDirectoryPolicy(SubDirectoryPolicy value);
 
     @Description("The window duration in which data will be written in NNNL format where N is a number and L is a character indicating time (seconds: 5s), (minutes, ex: 5m), (hours, ex: 5h), (days, ex 5d).")
-    @Default.String("30s")
+    @Default.String("5s")
     String getWindowDuration();
     void setWindowDuration(String value);
 
