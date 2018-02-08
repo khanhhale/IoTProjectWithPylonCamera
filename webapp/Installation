@@ -1,19 +1,6 @@
 1) Installation of packages
 sudo apt-get install python-pip python-dev build-essential python-setuptools python-tk python-qt4
-sudo pip install google-cloud
-sudo pip install oauth2client
-sudo pip install apiclient
-sudo pip install google-api-python-client
-sudo pip install cryptography
-sudo pip install requests
-sudo pip install google-gax
-sudo pip install flask-login
-sudo pip install Flask-JWT
-sudo pip install python-dateutil
-sudo pip install pyjwt
-sudo pip install Flask
-sudo pip install flask
-sudo pip install Pillow
+sudo pip install google-cloud oauth2client apiclient google-api-python-client cryptography requests google-gax flask-login Flask-JWT python-dateutil pyjwt Flask flask Pillow
 sudo pip install --upgrade pyasn1-modules
 
 2) Install protobuf3-to-dict-0.1.5:
@@ -37,7 +24,7 @@ sudo update-rc.d webapp_startup enable
 sudo update-rc.d webapp_startup defaults
 
 Remove carriage return characters in script to prevent errors:
-sed -i 's/\r//g' /etc/init.d/webapp
+sed -i 's/\r//g' /etc/init.d/webapp_startup
 
 Note:
 Please replace the value for the parameters --project_id, --registry_id,- -device_id, --private_key_file, --public_key_file, --credential, --cloud_region, --pubsub_topic that comes after the equal sign and change the path to the webapp folder for the code below that appears within the webapp_startup file.
