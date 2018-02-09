@@ -107,7 +107,7 @@ def storage_pull_message_from_storage():
        
       blob = storageApisObj.download_blob(bucket_id, blob_name)
       messageJson = []
-      if(blob != None):
+      if(blob != None and not blob.name.startswith(prefix + ".temp")):
             print("blob name:", blob.name)
             searchJpegPat = storageApisObj.imageSearchPattern("JPEG")
             searchGifPat = storageApisObj.imageSearchPattern("GIF")    
