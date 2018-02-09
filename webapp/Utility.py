@@ -54,7 +54,7 @@ class Utility(object):
   def imageSearchPattern(self, imageFormat):
       """
       Description: 
-       This function returns regular expression object based on image in four formats JPG, PNG and GIF.
+       This function returns regular expression object based on image in four formats JPG, PNG, BMP and GIF.
       Args: 
        blobName: name of the blob
       Returns:
@@ -63,11 +63,15 @@ class Utility(object):
       """
       imageFormat = imageFormat.upper() 
       if(imageFormat.endswith("JPG")):
-         return re.compile('^\/9j\/.+\/9k=$', re.M)
+         return re.compile('(?m)^\/9j\/.+$', re.M)
       elif(imageFormat.endswith("JPEG")):
-         return re.compile('^\/9j\/.+\/9k=$', re.M)
+         return re.compile('(?m)^\/9j\/.+$', re.M)
       elif(imageFormat.endswith("GIF")):
-         return re.compile('^R0lGODlh|R0lGODdh.+ADs=$', re.M)
+         return re.compile('(?m)^R0lGODlh|R0lGODdh.+$', re.M)
+      elif(imageFormat.endswith("PNG")):
+         return re.compile('(?m)^iVBORw0KGgo.+$', re.M)
+      elif(imageFormat.endswith("BMP")):
+         return re.compile('(?m)^Qk0.+$', re.M)
       else:
          return None
      

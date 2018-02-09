@@ -104,23 +104,22 @@ def storage_pull_message_from_storage():
       dataset_id = urllib.unquote(request.args.get("dataset_id")).decode('utf8')
       table_id = urllib.unquote(request.args.get("table_id")).decode('utf8')
       prefix = urllib.unquote(request.args.get("prefix")).decode('utf8')
-      '''
-      token = urllib.unquote(request.args.get("token")).decode('utf8')
-      if(cloudApisObj.authenticate_token(token,"google cloud private key")):
-        raise Exception("The file must have jpg or gif image")  
-      '''
-
+       
       blob = storageApisObj.download_blob(bucket_id, blob_name)
       messageJson = []
       if(blob != None):
             print("blob name:", blob.name)
             searchJpegPat = storageApisObj.imageSearchPattern("JPEG")
-            searchGifPat = storageApisObj.imageSearchPattern("GIF")          
+            searchGifPat = storageApisObj.imageSearchPattern("GIF")    
+            searchPngPat = storageApisObj.imageSearchPattern("PNG")
+            searchBmpPat = storageApisObj.imageSearchPattern("BMP")       
             jpegCollection = searchJpegPat.findall(blob.download_as_string().encode("utf-8"))
             gifCollection = searchGifPat.findall(blob.download_as_string().encode("utf-8"))
+            pngCollection = searchPngPat.findall(blob.download_as_string().encode("utf-8"))
+            bmpCollection = searchBmpPat.findall(blob.download_as_string().encode("utf-8"))
             if(jpegCollection == None and gifCollection == None):
-              raise Exception("The file must have jpg or gif image")  
-            image_collection = jpegCollection + jpegCollection
+              raise Exception("The file must have jpg, gif, png or bmp image")  
+            image_collection = jpegCollection + gifCollection + pngCollection + bmpCollection
             for image in image_collection:
                image_data = image.decode('base64')
                image_buffer = io.BytesIO(image_data)
