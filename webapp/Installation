@@ -2,6 +2,7 @@
 sudo apt-get install python-pip python-dev build-essential python-setuptools python-tk python-qt4
 sudo pip install google-cloud oauth2client apiclient google-api-python-client cryptography requests google-gax flask-login Flask-JWT python-dateutil pyjwt Flask flask Pillow
 sudo pip install --upgrade pyasn1-modules
+sudo pip install --upgrade requests
 
 2) Install protobuf3-to-dict-0.1.5:
 cd webapp/protobuf3-to-dict-0.1.5
