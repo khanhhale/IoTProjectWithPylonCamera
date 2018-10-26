@@ -4,7 +4,7 @@ import argparse, httplib2, logging
 
 
 SCOPES = ['https://www.googleapis.com/auth/cloud-platform','https://www.googleapis.com/auth/devstorage.full_control','https://www.googleapis.com/auth/datastore', 'https://www.googleapis.com/auth/compute.readonly', 'https://www.googleapis.com/auth/compute', 'https://www.googleapis.com/auth/userinfo.email']
-_BASE_CLOUD_IOT_URL = 'https://cloudiot-device.googleapis.com/v1beta1'
+_BASE_CLOUD_IOT_URL = 'https://cloudiotdevice.googleapis.com/v1'
 
 class ServiceApi(object):
   def __init__(self):
